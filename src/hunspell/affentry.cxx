@@ -173,7 +173,7 @@ inline int PfxEntry::test_condition(const std::string& s) {
             return 0;  // word <= condition
           break;
         }
-      /* FALLTHROUGH */
+        [[fallthrough]];
       default: {
         if (st < s.size() && s[st] == *p) {
           ++st;
@@ -556,7 +556,7 @@ inline int SfxEntry::test_condition(const char* st, const char* beg) {
           }
           break;
         }
-      /* FALLTHROUGH */
+        [[fallthrough]];
       default: {
         if (*st == *p) {
           p = nextchar(p);
