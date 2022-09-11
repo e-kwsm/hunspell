@@ -4521,7 +4521,7 @@ bool AffixMgr::parse_affix(const std::string& line,
           opts |= aeALIASM;
         affentries.initialize(numents, opts, aflag);
       }
-
+      [[fallthrough]];
       default:
         break;
     }
