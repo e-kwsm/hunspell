@@ -174,7 +174,7 @@ class AffixMgr {
                                // affix)
 
  public:
-  AffixMgr(const char* affpath, const std::vector<HashMgr*>& ptr, const char* key = NULL);
+  AffixMgr(const char* affpath, const std::vector<HashMgr*>& ptr, const char* key = nullptr);
   ~AffixMgr();
   struct hentry* affix_check(const std::string& word,
                              int start,
