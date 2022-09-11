@@ -91,7 +91,7 @@ HashMgr::HashMgr(const char* tpath, const char* apath, const char* key)
       utf8(0),
       forbiddenword(FORBIDDENWORD), // forbidden word signing flag
       langnum(0),
-      csconv(NULL)
+      csconv(nullptr)
 {
   load_config(apath, key);
   if (!csconv)
@@ -115,7 +115,7 @@ void HashMgr::free_table() {
   // now pass through hash table freeing up everything
   // go through column by column of the table
   for (auto ptr : tableptr) {
-    hentry* nt = NULL;
+    hentry* nt = nullptr;
     while (ptr) {
       nt = ptr->next;
       free_flag(ptr->astr, ptr->alen);
@@ -147,12 +147,12 @@ HashMgr::~HashMgr() {
 struct hentry* HashMgr::lookup(const char* word, size_t len) const {
   struct hentry* dp = tableptr[hash(word, len)];
   if (!dp)
-    return NULL;
-  for (; dp != NULL; dp = dp->next) {
+    return nullptr;
+  for (; dp != nullptr; dp = dp->next) {
     if (strcmp(word, dp->word) == 0)
       return dp;
   }
-  return NULL;
+  return nullptr;
 }
 
 // add a word to the hash table (private)
@@ -173,8 +173,8 @@ int HashMgr::add_word(const std::string& in_word,
   const std::string* word = &in_word;
   const std::string* desc = in_desc;
 
-  std::string *word_copy = NULL;
-  std::string *desc_copy = NULL;
+  std::string *word_copy = nullptr;
+  std::string *desc_copy = nullptr;
   if ((!ignorechars.empty() && !has_no_ignored_chars(in_word, ignorechars)) || complexprefixes) {
     word_copy = new std::string(in_word);
 
@@ -239,8 +239,8 @@ int HashMgr::add_word(const std::string& in_word,
   hp->clen = (unsigned short)wcl;
   hp->alen = (short)al;
   hp->astr = aff;
-  hp->next = NULL;
-  hp->next_homonym = NULL;
+  hp->next = nullptr;
+  hp->next_homonym = nullptr;
   hp->var = (captype == INITCAP) ? H_OPT_INITCAP : 0;
 
   // store the description string or its pointer
@@ -362,7 +362,7 @@ int HashMgr::add_word(const std::string& in_word,
     delete word_copy;
     return 0;
   }
-  while (dp->next != NULL) {
+  while (dp->next != nullptr) {
     if ((!dp->next_homonym) && (strcmp(hp->word, dp->word) == 0)) {
       // remove hidden onlyupcase homonym
       if (!onlyupcase) {
@@ -420,7 +420,7 @@ int HashMgr::add_hidden_capitalized_word(const std::string& word,
                                          int flagslen,
                                          const std::string* dp,
                                          int captype) {
-  if (flags == NULL)
+  if (flags == nullptr)
     flagslen = 0;
 
   // add inner capitalized forms to handle the following allcap forms:
@@ -507,10 +507,10 @@ void HashMgr::remove_forbidden_flag(const std::string& word) {
 int HashMgr::add(const std::string& word) {
   remove_forbidden_flag(word);
   int captype, al = 0;
-  unsigned short* flags = NULL;
+  unsigned short* flags = nullptr;
   int wcl = get_clen_and_captype(word, &captype);
-  add_word(word, wcl, flags, al, NULL, false, captype);
-  return add_hidden_capitalized_word(word, wcl, flags, al, NULL,
+  add_word(word, wcl, flags, al, nullptr, false, captype);
+  return add_hidden_capitalized_word(word, wcl, flags, al, nullptr,
                                      captype);
 }
 
@@ -518,7 +518,7 @@ int HashMgr::add_with_flags(const std::string& word, const std::string& flags, c
   remove_forbidden_flag(word);
   int captype;
   unsigned short *df;
-  int al = decode_flags(&df, flags, NULL);
+  int al = decode_flags(&df, flags, nullptr);
   int wcl = get_clen_and_captype(word, &captype);
   add_word(word, wcl, df, al, &desc, false, captype);
   return add_hidden_capitalized_word(word, wcl, df, al, &desc, captype);
@@ -532,22 +532,22 @@ int HashMgr::add_with_affix(const std::string& word, const std::string& example)
     int captype;
     int wcl = get_clen_and_captype(word, &captype);
     if (!aliasf.empty()) {
-      add_word(word, wcl, dp->astr, dp->alen, NULL, false, captype);
+      add_word(word, wcl, dp->astr, dp->alen, nullptr, false, captype);
     } else {
       auto flags = new unsigned short[dp->alen];
       memcpy(flags, dp->astr, dp->alen * sizeof(unsigned short));
-      add_word(word, wcl, flags, dp->alen, NULL, false, captype);
+      add_word(word, wcl, flags, dp->alen, nullptr, false, captype);
     }
     return add_hidden_capitalized_word(word, wcl, dp->astr,
-                                       dp->alen, NULL, captype);
+                                       dp->alen, nullptr, captype);
   }
   return 1;
 }
 
 // walk the hash table entry by entry - null at end
-// initialize: col=-1; hp = NULL; hp = walk_hashtable(&col, hp);
+// initialize: col=-1; hp = nullptr; hp = walk_hashtable(&col, hp);
 struct hentry* HashMgr::walk_hashtable(int& col, struct hentry* hp) const {
-  if (hp && hp->next != NULL)
+  if (hp && hp->next != nullptr)
     return hp->next;
   for (col++; col < (int)tableptr.size(); ++col) {
     if (tableptr[col])
@@ -555,14 +555,14 @@ struct hentry* HashMgr::walk_hashtable(int& col, struct hentry* hp) const {
   }
   // null at end and reset to start
   col = -1;
-  return NULL;
+  return nullptr;
 }
 
 // load a munched word list and build a hash table on the fly
 int HashMgr::load_tables(const char* tpath, const char* key) {
   // open dictionary file
   FileMgr* dict = new FileMgr(tpath, key);
-  if (dict == NULL)
+  if (dict == nullptr)
     return 1;
 
   // first read the first line of file to get hash table size
@@ -676,12 +676,12 @@ int HashMgr::load_tables(const char* tpath, const char* key) {
       }
     } else {
       al = 0;
-      flags = NULL;
+      flags = nullptr;
     }
 
     int captype;
     int wcl = get_clen_and_captype(ts, &captype, workbuf);
-    const std::string *dp_str = dp.empty() ? NULL : &dp;
+    const std::string *dp_str = dp.empty() ? nullptr : &dp;
     // add the word and its index plus its capitalized form optionally
     if (add_word(ts, wcl, flags, al, dp_str, false, captype) ||
         add_hidden_capitalized_word(ts, wcl, flags, al, dp_str, captype)) {
@@ -719,13 +719,13 @@ int HashMgr::hash(const char* word, size_t len) const {
 int HashMgr::decode_flags(unsigned short** result, const std::string& flags, FileMgr* af) const {
   int len;
   if (flags.empty()) {
-    *result = NULL;
+    *result = nullptr;
     return 0;
   }
   switch (flag_mode) {
     case FLAG_LONG: {  // two-character flags (1x2yZz -> 1x 2y Zz)
       len = flags.size();
-      if ((len & 1) == 1 && af != NULL)
+      if ((len & 1) == 1 && af != nullptr)
         HUNSPELL_WARNING(stderr, "error: line %d: bad flagvector\n",
                          af->getlinenum());
       len >>= 1;
@@ -734,7 +734,7 @@ int HashMgr::decode_flags(unsigned short** result, const std::string& flags, Fil
         unsigned short flag = ((unsigned short)((unsigned char)flags[i << 1]) << 8) |
                               ((unsigned short)((unsigned char)flags[(i << 1) | 1]));
 
-        if (flag >= DEFAULTFLAGS && af != NULL) {
+        if (flag >= DEFAULTFLAGS && af != nullptr) {
           HUNSPELL_WARNING(stderr,
                            "error: line %d: flag id %d is too large (max: %d)\n",
                            af->getlinenum(), flag, DEFAULTFLAGS - 1);
@@ -754,14 +754,14 @@ int HashMgr::decode_flags(unsigned short** result, const std::string& flags, Fil
       for (size_t p = 0; p < flags.size(); ++p) {
         if (flags[p] == ',') {
           int i = atoi(src);
-          if ((i >= DEFAULTFLAGS || i < 0) && af != NULL) {
+          if ((i >= DEFAULTFLAGS || i < 0) && af != nullptr) {
             HUNSPELL_WARNING(
                 stderr, "error: line %d: flag id %d is too large (max: %d)\n",
                 af->getlinenum(), i, DEFAULTFLAGS - 1);
              i = 0;
 	  }
           *dest = (unsigned short)i;
-          if (*dest == 0 && af != NULL)
+          if (*dest == 0 && af != nullptr)
             HUNSPELL_WARNING(stderr, "error: line %d: 0 is wrong flag id\n",
                              af->getlinenum());
           src = flags.c_str() + p + 1;
@@ -1119,7 +1119,7 @@ bool HashMgr::parse_aliasf(const std::string& line, FileMgr* af) {
   /* now parse the numaliasf lines to read in the remainder of the table */
   for (int j = 0; j < numaliasf; ++j) {
     std::string nl;
-    unsigned short* alias = NULL;
+    unsigned short* alias = nullptr;
     unsigned aliaslen = 0;
     i = 0;
     if (af->getline(nl)) {
@@ -1178,7 +1178,7 @@ int HashMgr::get_aliasf(int index, unsigned short** fvec, FileMgr* af) const {
   }
   HUNSPELL_WARNING(stderr, "error: line %d: bad flag alias index: %d\n",
                    af->getlinenum(), index);
-  *fvec = NULL;
+  *fvec = nullptr;
   return 0;
 }
 
@@ -1224,7 +1224,7 @@ bool HashMgr::parse_aliasm(const std::string& line, FileMgr* af) {
   /* now parse the numaliasm lines to read in the remainder of the table */
   for (int j = 0; j < numaliasm; ++j) {
     std::string nl;
-    char* alias = NULL;
+    char* alias = nullptr;
     if (af->getline(nl)) {
       mychomp(nl);
       iter = nl.begin();
@@ -1284,7 +1284,7 @@ char* HashMgr::get_aliasm(int index) const {
   if (index > 0 && static_cast<size_t>(index) <= aliasm.size())
     return aliasm[index - 1];
   HUNSPELL_WARNING(stderr, "error: bad morph. alias index: %d\n", index);
-  return NULL;
+  return nullptr;
 }
 
 /* parse in the typical fault correcting table */
