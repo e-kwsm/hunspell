@@ -48,9 +48,9 @@
 class FirstParser : public TextParser {
  public:
   explicit FirstParser(const char* wc);
-  virtual ~FirstParser();
+  ~FirstParser() override;
 
-  virtual bool next_token(std::string&);
+  bool next_token(std::string&) override;
 };
 
 #endif
