@@ -163,7 +163,7 @@
       - MAXWORDLEN can be set during build time with -D defines.
       - Fix crash when word with 102 consecutive X is spelled.
   - Command line tool:
-      - -D shows all loaded dictionares insted of only the first.
+      - -D shows all loaded dictionares instead of only the first.
       - -D properly lists all available dictionaries on Windows.
 
 2016-11-30: Hunspell 1.5.4 release:
@@ -355,7 +355,7 @@
 
 2007-09-05: Hunspell 1.1.12 release:
   - dictionary based phonetic suggestion for words with
-    special or foreign pronounciation or alternative (bad) transliteration
+    special or foreign pronunciation or alternative (bad) transliteration
     (see Changelog, tests/phone.* and manual).
 
   - improved data structure and memory optimization for dictionaries
@@ -372,7 +372,7 @@
   - portability fixes
 
 2007-08-23: Hunspell 1.1.10 release:
-  - pronounciation based suggestion using Björn Jacke's original Aspell
+  - pronunciation based suggestion using Björn Jacke's original Aspell
     phonetic transcription algorithm (http://aspell.net), relicensed under
     GPL/LGPL/MPL tri-license with the permission of the author
 
@@ -732,7 +732,7 @@ $ for i in *_*/*.result; do wc -c $i; done
 0 uk_UA/uk_UA.result
 0 zu_ZA/zu_ZA.result
 
-In en_AU dictionary, there is an abbrevation with two dots (`eqn..'), but
+In en_AU dictionary, there is an abbreviation with two dots (`eqn..'), but
 `eqn.' is missing. Presumably it is a dictionary bug. Myspell also
 haven't accepted it.
 
