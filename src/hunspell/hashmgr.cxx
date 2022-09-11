@@ -710,7 +710,7 @@ int HashMgr::hash(const char* word, size_t len) const {
   while (i < 4 && i < len)
     hv = (hv << 8) | word[i++];
   while (i < len) {
-    ROTATE(hv, ROTATE_LEN);
+    ROTATE(hv, ROTATE_LEN)
     hv ^= word[i++];
   }
   return (unsigned long)hv % tableptr.size();
