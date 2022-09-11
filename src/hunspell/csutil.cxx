@@ -111,11 +111,11 @@ void myopen(std::ifstream& stream, const char* path, std::ios_base::openmode mod
 #if defined(_WIN32) && defined(_MSC_VER)
 #define WIN32_LONG_PATH_PREFIX "\\\\?\\"
   if (strncmp(path, WIN32_LONG_PATH_PREFIX, 4) == 0) {
-    int len = MultiByteToWideChar(CP_UTF8, 0, path, -1, NULL, 0);
+    int len = MultiByteToWideChar(CP_UTF8, 0, path, -1, nullptr, 0);
     wchar_t* buff = new wchar_t[len];
     wchar_t* buff2 = new wchar_t[len];
     MultiByteToWideChar(CP_UTF8, 0, path, -1, buff, len);
-    if (_wfullpath(buff2, buff, len) != NULL) {
+    if (_wfullpath(buff2, buff, len) != nullptr) {
       stream.open(buff2, mode);
     }
     delete [] buff;
