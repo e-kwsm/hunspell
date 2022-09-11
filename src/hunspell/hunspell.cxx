@@ -548,10 +548,10 @@ bool HunspellImpl::spell_internal(const std::string& word, std::vector<std::stri
 
   switch (captype) {
     case HUHCAP:
-    /* FALLTHROUGH */
+      [[fallthrough]];
     case HUHINITCAP:
       *info |= SPELL_ORIGCAP;
-    /* FALLTHROUGH */
+      [[fallthrough]];
     case NOCAP:
       rv = checkword(scw, info, root, suggest_start);
       if ((abbv) && !(rv)) {
@@ -627,7 +627,7 @@ bool HunspellImpl::spell_internal(const std::string& word, std::vector<std::stri
           break;
       }
     }
-      /* FALLTHROUGH */
+      [[fallthrough]];
     case INITCAP: {
       // handle special capitalization of dotted I
       bool Idot = (utf8 && (unsigned char) scw[0] == 0xc4 && (unsigned char) scw[1] == 0xb0);
@@ -1170,7 +1170,7 @@ std::vector<std::string> HunspellImpl::suggest_internal(const std::string& word,
     }
     case HUHINITCAP:
       capwords = true;
-      /* FALLTHROUGH */
+      [[fallthrough]];
     case HUHCAP: {
       good |= pSMgr->suggest(slst, scw, &onlycmpdsug);
       if (std::chrono::steady_clock::now() - suggest_start > TIMELIMIT_GLOBAL_MS)
@@ -1294,10 +1294,10 @@ std::vector<std::string> HunspellImpl::suggest_internal(const std::string& word,
             return slst;
         break;
       }
-      /* FALLTHROUGH */
+      [[fallthrough]];
       case HUHINITCAP:
         capwords = true;
-      /* FALLTHROUGH */
+        [[fallthrough]];
       case HUHCAP: {
         std::string wspace(scw);
         mkallsmall2(wspace, sunicw);
