@@ -50,9 +50,9 @@ class ManParser : public TextParser {
  public:
   explicit ManParser(const char* wc);
   ManParser(const w_char* wordchars, int len);
-  virtual ~ManParser();
+  ~ManParser() override;
 
-  virtual bool next_token(std::string&);
+  bool next_token(std::string&) override;
 };
 
 #endif

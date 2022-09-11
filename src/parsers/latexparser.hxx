@@ -54,9 +54,9 @@ class LaTeXParser : public TextParser {
  public:
   explicit LaTeXParser(const char* wc);
   LaTeXParser(const w_char* wordchars, int len);
-  virtual ~LaTeXParser();
+  ~LaTeXParser() override;
 
-  virtual bool next_token(std::string&);
+  bool next_token(std::string&) override;
 
  private:
   int look_pattern(int col);
