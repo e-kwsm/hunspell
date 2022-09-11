@@ -103,6 +103,9 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
   HunspellImpl* m_Impl;
 
  public:
+  Hunspell(const Hunspell&) = delete;
+  Hunspell& operator=(const Hunspell&) = delete;
+
   /* Hunspell(aff, dic) - constructor of Hunspell class
    * input: path of affix file and dictionary file
    *
