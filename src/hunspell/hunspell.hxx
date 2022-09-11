@@ -88,12 +88,19 @@
 #define MAXWORDLEN 100
 #endif
 
-#if defined __GNUC__ && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
-#  define H_DEPRECATED __attribute__((__deprecated__))
-#elif defined(_MSC_VER) && (_MSC_VER >= 1300)
-#  define H_DEPRECATED __declspec(deprecated)
-#else
-#  define H_DEPRECATED
+#if defined(__has_cpp_attribute)
+#  if __has_cpp_attribute(deprecated)
+#    define H_DEPRECATED [[deprecated]]
+#  endif
+#endif
+#ifndef H_DEPRECATED
+#  if defined __GNUC__ && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
+#    define H_DEPRECATED __attribute__((__deprecated__))
+#  elif defined(_MSC_VER) && (_MSC_VER >= 1300)
+#    define H_DEPRECATED __declspec(deprecated)
+#  else
+#    define H_DEPRECATED
+#  endif
 #endif
 
 class HunspellImpl;
